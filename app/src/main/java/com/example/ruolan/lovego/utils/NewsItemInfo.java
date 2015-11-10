@@ -11,13 +11,15 @@ public class NewsItemInfo {
     public String str;
     public int price;
     public ArrayList<String> pic;
+    public int oldPrice;
     public int bought;
 
-    public NewsItemInfo(String title, String str, int price, ArrayList<String> pic, int bought) {
+    public NewsItemInfo(String title, String str, int price, ArrayList<String> pic, int oldPrice,int bought) {
         this.title = title;
         this.str = str;
         this.price = price;
         this.pic = pic;
+        this.oldPrice = oldPrice;
         this.bought = bought;
     }
 
@@ -28,6 +30,7 @@ public class NewsItemInfo {
                 ", str='" + str + '\'' +
                 ", price=" + price +
                 ", pic=" + pic +
+                ", oldPrice=" + oldPrice +
                 ", bought=" + bought +
                 '}';
     }

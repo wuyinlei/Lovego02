@@ -1,21 +1,28 @@
 package com.example.ruolan.lovego.fragment;
 
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.example.lib_lyn.HttpUtils;
 import com.example.lib_lyn.volley.VolleyLisener;
 import com.example.ruolan.lovego.R;
+import com.example.ruolan.lovego.activity.ProductActivity;
 import com.example.ruolan.lovego.utils.NewsItemInfo;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,12 +31,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private ListView lv_main;
     private MyListView adapter;
     private View mView;
     public ArrayList<String> pic;   //存放图片的容器
+
+    protected ImageLoader imageLoader = ImageLoader.getInstance();
+
+   private DisplayImageOptions options;
 
     public ArrayList<NewsItemInfo> datalist = new ArrayList<NewsItemInfo>();    //存放商品的容器
 
@@ -41,14 +52,29 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (mView == null) {
             mView = inflater.inflate(R.layout.fragment_main, container, false);
+            initOption();  //图片的加载方法
             lv_main = (ListView) mView.findViewById(R.id.lv_main);
+            lv_main.setOnItemClickListener(this);  //对lv_main实现点击监听
             adapter = new MyListView();
             lv_main.setAdapter(adapter);
+            new MyAsyncTask().execute("http://xinbo.qiniudn.com/cainixihuan.json");
         } else {
             ViewGroup parent = (ViewGroup) mView.getParent();
             // parent.removeView(mView);
         }
         return mView;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getActivity(), ProductActivity.class);
+        intent.putExtra("title",datalist.get(position).title);
+        intent.putExtra("price",datalist.get(position).price);
+        intent.putExtra("short_title",datalist.get(position).str);
+
+        String img_url = datalist.get(position).pic.get(position%(pic.size()));
+        intent.putExtra("image URL",img_url);
+        startActivity(intent);
     }
 
     /**
@@ -81,7 +107,7 @@ public class MainFragment extends Fragment {
          */
         @Override
         public void onErrorResponse(VolleyError error) {
-
+            Toast.makeText(getActivity(),"访问失败",Toast.LENGTH_SHORT).show();
         }
 
         /**
@@ -134,13 +160,32 @@ public class MainFragment extends Fragment {
                         String string = jsonpic.getString("image");
                         pic.add(string);
                     }
-                    NewsItemInfo newsItemInfo = new NewsItemInfo(title, str, price, pic, 0);
+                    NewsItemInfo newsItemInfo = new NewsItemInfo(title, str, price, pic, 0,0);
                     datalist.add(newsItemInfo);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * 图片初始化的方法
+     */
+    private void initOption(){
+       options =  new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.ic_launcher)
+               //加载的uri为空的时候显示的图片
+                .showImageForEmptyUri(R.drawable.ic_launcher)
+               //加载失败的时候显示的图片
+                .showImageOnFail(R.drawable.ic_launcher)
+               //存储到内存中
+                .cacheInMemory(true)
+               //存储到外存中
+                .cacheOnDisk(true)
+                .considerExifParams(true)
+                /*.displayer(new RoundedBitmapDisplayer(100))//是否设置图片的圆角
+                .displayer(new FadeInBitmapDisplayer(3000))//是否设置图片加载好后的渐变时间*/
+                .build();
     }
 
     class MyListView extends BaseAdapter {
@@ -164,23 +209,17 @@ public class MainFragment extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             NewsItemInfo newsItemInfo = datalist.get(position);
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.list_item, null);
+            ImageView tv_image = (ImageView) view.findViewById(R.id.tv_image);
             TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
             TextView tv_price = (TextView) view.findViewById(R.id.tv_price);
             TextView tv_summary = (TextView) view.findViewById(R.id.tv_summary);
-            tv_title.setText(newsItemInfo.title);
-            tv_price.setText(newsItemInfo.price);
-            tv_summary.setText(newsItemInfo.str);
+           imageLoader.displayImage(newsItemInfo.pic.get(0), tv_image, options);
+            tv_title.setText(""+newsItemInfo.title);
+            tv_price.setText(""+newsItemInfo.price);
+            tv_summary.setText(""+newsItemInfo.str);
             return view;
         }
     }
 
-    class MyAsyn extends AsyncTask<String, Void, Void> {
 
-        @Override
-        protected Void doInBackground(String... params) {
-            return null;
-        }
-
-
-    }
 }
