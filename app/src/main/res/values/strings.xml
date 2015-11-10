@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Lovego</string>
+    <string name="action_settings">Settings</string>
+    <string name="main_interface">主界面</string>
+    <string name="title_activity_guide">GuideActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="guide_text">引导界面</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main_fragment">首页</string>
+    <string name="buy_fragment">购物车</string>
+    <string name="people_fragment">个人中心</string>
+</resources>

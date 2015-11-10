@@ -1,0 +1,101 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+From lib_HKL2:
+* ic_launcher-web.png
+* proguard-project.txt
+From lib_Volley:
+* .gitignore
+* Android.mk
+* README.md
+* build.gradle
+* build.xml
+* custom_rules.xml
+* deploy.gradle
+* deploy.sh
+* gradle.properties
+* gradle\
+* gradle\wrapper\
+* gradle\wrapper\gradle-wrapper.jar
+* gradle\wrapper\gradle-wrapper.properties
+* gradlew
+* gradlew.bat
+* proguard-project.txt
+* proguard.cfg
+* tests\
+* tests\.classpath
+* tests\.project
+* tests\Android.mk
+* tests\project.properties
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:19.+
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+In lib_Volley:
+* AndroidManifest.xml => lib_Volley\src\main\AndroidManifest.xml
+* assets\ => lib_Volley\src\main\assets
+* res\ => lib_Volley\src\main\res
+* src\ => lib_Volley\src\main\java\
+* tests\res\ => lib_Volley\src\androidTest\res\
+* tests\src\ => lib_Volley\src\androidTest\java\
+In lib_HKL2:
+* AndroidManifest.xml => lib_HKL2\src\main\AndroidManifest.xml
+* assets\ => lib_HKL2\src\main\assets
+* libs\ActiveAndroid-3.1.jar => lib_HKL2\libs\ActiveAndroid-3.1.jar
+* libs\BmobSDK_V3.2.6_1103.jar => lib_HKL2\libs\BmobSDK_V3.2.6_1103.jar
+* libs\lib_uil.jar => lib_HKL2\libs\lib_uil.jar
+* libs\locSDK_3.1.jar => lib_HKL2\libs\locSDK_3.1.jar
+* libs\umeng-feedback-v4.3.jar => lib_HKL2\libs\umeng-feedback-v4.3.jar
+* libs\weibosdkcore.jar => lib_HKL2\libs\weibosdkcore.jar
+* lint.xml => lib_HKL2\lint.xml
+* res\ => lib_HKL2\src\main\res\
+* src\ => lib_HKL2\src\main\java\
+
+Missing Android Support Repository:
+-----------------------------------
+Some useful libraries, such as the Android Support Library, are
+installed from a special Maven repository, which should be installed
+via the SDK manager.
+
+It looks like this library is missing from your SDK installation at:
+null
+
+To install it, open the SDK manager, and in the Extras category,
+select "Android Support Repository". You may also want to install the
+"Google Repository" if you want to use libraries like Google Play
+Services.
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)
